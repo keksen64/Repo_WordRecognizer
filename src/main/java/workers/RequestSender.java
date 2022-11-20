@@ -1,6 +1,7 @@
 package workers;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.params.ClientPNames;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -26,6 +27,15 @@ public class RequestSender {
         // String url = "https://afisha.yandex.ru/moscow/theatre?source=menu&date=2022-05-27&period=1";
         CloseableHttpClient client = HttpClientBuilder.create().build();
         HttpGet request = new HttpGet(url);
+//        RequestConfig rc = RequestConfig.DEFAULT;
+//         rc.setConnectionRequestTimeout
+//        request.setConfig(new RequestConfig());
+        request.setConfig(RequestConfig.custom()
+                .setConnectTimeout(3000)
+                .setSocketTimeout(3000)
+                .setConnectionRequestTimeout(3000)
+                .build()
+        );
         request.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36");
         //request.addHeader(":path:", "/film/"+ id +"/like/");
         request.addHeader("method", "GET");
