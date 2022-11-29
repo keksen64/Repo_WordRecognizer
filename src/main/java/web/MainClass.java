@@ -16,12 +16,15 @@ import com.sun.net.httpserver.HttpServer;
 import workers.*;
 
 public class MainClass {
-    public static BlackList blackList = new BlackList();
+    public static BlackList blackList = new BlackList("blackList.csv");
+    public static BlackList secondBlackList = new BlackList("secondBlackList.csv");
     public static int ee;
     public static String wordsThree ="";
 
     public static void main(String[] args) throws Exception {
         System.out.println("поток_"+Thread.currentThread().getName());
+        blackList.read();
+        secondBlackList.read();
 
         Scheduler sh = new Scheduler();
         sh.start();

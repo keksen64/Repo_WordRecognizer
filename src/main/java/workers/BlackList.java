@@ -1,18 +1,26 @@
 package workers;
 
+import java.util.Arrays;
 import java.util.Set;
 
 public class BlackList {
     Set<String> set;
-    {
-       try {
-           set = Reader2Set.read("blackList.csv");
-           Object[] ar = set.toArray();
-           //System.out.println(ar[0].toString());
-       }catch (Exception e){
-           System.out.println("ОШИБКА ПРИ СОЗДАНИИ ЧЕРНОГО СПИСКА");
-       }
+    String file;
+    public BlackList(String file) {
+        this.file = file;
     }
+    {
+    }
+    public void read(){
+        try {
+            set = Reader2Set.read(file);
+            Object[] ar = set.toArray();
+            System.out.println(Arrays.toString(ar));
+        }catch (Exception e){
+            System.out.println("ОШИБКА ПРИ СОЗДАНИИ ЧЕРНОГО СПИСКА "+file);
+        }
+    }
+
     public boolean isInBlackList(String str){
         return set.contains(str);
     }

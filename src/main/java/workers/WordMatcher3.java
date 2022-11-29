@@ -1,6 +1,8 @@
 package workers;
 
 
+import web.MainClass;
+
 import java.util.Date;
 
 // класс выполняет вторичный подсчет групп одинаковых слов игнорируя порядок и отличающиеся окончания
@@ -10,6 +12,7 @@ public class WordMatcher3 {
         Date date = new Date();
         System.out.println("поток_"+Thread.currentThread().getName()+" "+date+" || начало повторной сверки");
         int replaseCount =0;
+        int deleteCount =0;
         int size = arr.length;
         int i=0;
         while (i<size){
@@ -17,18 +20,16 @@ public class WordMatcher3 {
             while (k<size){
                 if(arr[i]!=null&&arr[k]!=null&&i!=k){
                     //System.out.println("встретились не нули");
-                    String[] words1 = arr[i].word.split(" ");
-                    String[] words2 = arr[k].word.split(" ");
+                    String[] words1 = arr[i].getWord().split(" ");
+                    String[] words2 = arr[k].getWord().split(" ");
                     if((reconciliation(words1[0],words2[0])&&reconciliation(words1[1],words2[1])&&reconciliation(words1[2],words2[2]))||
                             (reconciliation(words1[1],words2[0])&&reconciliation(words1[0],words2[1])&&reconciliation(words1[2],words2[2]))||
                             (reconciliation(words1[0],words2[0])&&reconciliation(words1[1],words2[2])&&reconciliation(words1[2],words2[1]))||
                             (reconciliation(words1[0],words2[2])&&reconciliation(words1[1],words2[1])&&reconciliation(words1[2],words2[0]))
                     ){
-                        System.out.println("сверка делает замену" + arr[i].toString()+ " "+ arr[k].toString());
-                        arr[i].count=arr[i].count + arr[k].count;
+                        arr[i].setCount(arr[i].getCount()+arr[k].getCount());
                         arr[k]=null;
                         replaseCount++;
-                        System.out.println("после замены" + arr[i].toString());
                     }
                 }
                 k++;
@@ -36,7 +37,20 @@ public class WordMatcher3 {
             i++;
         }
          date = new Date();
-        System.out.println("поток_"+Thread.currentThread().getName()+" "+date+" || сделано "+ replaseCount + " замен");
+         int d=0;
+        while (d<size) {
+
+            if(arr[d] != null){
+                //System.out.println(arr[d].word.toLowerCase());
+                if (MainClass.secondBlackList.isInBlackList(arr[d].getWord().toLowerCase())==true) {
+                    arr[d] = null;
+                    deleteCount++;
+                }
+            }
+            d++;
+        }
+        System.out.println("поток_"+Thread.currentThread().getName()+" "+date+" || сделано "+ replaseCount + " замен "+deleteCount + " удалено");
+
         return arr;
     }
 

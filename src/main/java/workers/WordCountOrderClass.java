@@ -11,7 +11,7 @@ public class WordCountOrderClass {
         int i =0;
         while (i< arr.length){
             if(arr[i]!=null){
-                map.put(arr[i].word,arr[i].count);
+                map.put(arr[i].getWord(),arr[i].getCount());
             }
             i++;
         }

@@ -18,13 +18,6 @@ public class GetThreeWords implements HttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         Date date = new Date();
-
-        try {
-            System.out.println("поток_"+Thread.currentThread().getName()+" "+date+" || старт тестового замедления");
-            Thread.sleep(30000);
-        }catch (Exception e){
-
-        }
         date = new Date();
         System.out.println("поток_"+Thread.currentThread().getName()+" "+date+" || поступление запроса в обработчик handle");
         try {

@@ -24,7 +24,7 @@ public class Reader2Set {
                 i++;
             }
         }catch (Exception e){
-            System.out.println("Ошибка записи сета");
+            System.out.println("Ошибка записи сета"+ e);
         }
         return set;
     }
